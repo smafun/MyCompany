@@ -4,9 +4,12 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<p>
+    <a asp-controller="ServiceTypes" asp-action="Create">Create New ServiceType</a>
+</p>
 
-<h4>Order</h4>
+<h2>Create - Order</h2>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -27,29 +30,18 @@
                 <span asp-validation-for="AddressTo" class="text-danger"></span>
             </div>
 
-            <dl class="dl-horizontal">
-                <div>
-                    <label asp-for="ServiceType" class="control-label"></label>
-                    <input asp-for="ServiceType" class="form-control" />
-                    <span asp-validation-for="ServiceType" class="text-danger"></span>
-                </div>
+            <div class="form-group">
+                @Html.DropDownList("Category", new SelectList(ViewBag.ServicetypesList), "Choose Servicerype", new { @onchange = "passvalue(this);" })
+               
 
-                 <dd>
-                    <select name="listbox" id="listbox">
-                        @foreach (var item in ViewBag.Servicetypes)
-                        {
-                            <option value="@item.Name">
-                                @item.Name
-                            </option>
-                        }
-                    </select>
-                </dd>
-
-            </dl>
-
+            </div>
+            <div>
+                <input asp-for="ServiceType" class="form-control" />
+                <span asp-validation-for="ServiceType" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="TextField" class="control-label"></label>
-                <input asp-for="TextField" class="form-control" />
+                <input asp-for="TextField" class="form-control" id="servicetype"/>
                 <span asp-validation-for="TextField" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -71,3 +63,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script type="text/javascript">
+    function passvalue(e) {
+        alert(e.innerHTML);
+            $("#ServiceType").val($(this).text());
+           }
+</script>
+

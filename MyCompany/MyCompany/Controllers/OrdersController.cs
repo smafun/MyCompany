@@ -49,7 +49,11 @@ namespace MyCompany.Controllers
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id");
-            ViewData["Servicetypes"] = _context.ServiceTypes.ToList();
+           
+            var servicetypeList = _context.ServiceTypes.Select(c => c.Name).ToList();
+
+            ViewBag.ServicetypesList = servicetypeList;
+
 
             return View();
         }
