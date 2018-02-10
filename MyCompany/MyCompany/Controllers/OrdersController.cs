@@ -49,6 +49,8 @@ namespace MyCompany.Controllers
         public IActionResult Create()
         {
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id");
+            ViewData["Servicetypes"] = _context.ServiceTypes.ToList();
+
             return View();
         }
 

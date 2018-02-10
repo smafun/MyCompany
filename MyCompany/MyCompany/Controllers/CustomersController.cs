@@ -34,6 +34,8 @@ namespace MyCompany.Controllers
             }
 
             var customer = await _context.Customers
+                .Include(s => s.Orders)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
