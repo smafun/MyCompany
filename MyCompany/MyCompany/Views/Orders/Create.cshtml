@@ -31,17 +31,16 @@
             </div>
 
             <div class="form-group">
-                @Html.DropDownList("Category", new SelectList(ViewBag.ServicetypesList), "Choose Servicerype", new { @onchange = "passvalue(this);" })
-               
-
+                @Html.DropDownList("Category", new SelectList(ViewBag.ServicetypesList), "Choose Servicerype", new { @class = "form-control" })
+                
             </div>
             <div>
-                <input asp-for="ServiceType" class="form-control" />
+                <input asp-for="ServiceType" class="form-control" id="ServiceType" />
                 <span asp-validation-for="ServiceType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TextField" class="control-label"></label>
-                <input asp-for="TextField" class="form-control" id="servicetype"/>
+                <input asp-for="TextField" class="form-control" id="servicetype" />
                 <span asp-validation-for="TextField" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -62,12 +61,18 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(function () {
+            //Dropdownlist Selectedchange event
+            $('#Category').change(function () {
+                // Get Dropdownlist seleted item text
+                $("#ServiceType").val($("#Category").val());
+            })
+        });
+    </script>
 }
 
-<script type="text/javascript">
-    function passvalue(e) {
-        alert(e.innerHTML);
-            $("#ServiceType").val($(this).text());
-           }
-</script>
+
+
 
