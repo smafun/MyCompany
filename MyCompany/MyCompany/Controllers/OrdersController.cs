@@ -65,6 +65,8 @@ namespace MyCompany.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CustomerId,AddressFrom,AddressTo,ServiceType,TextField,Date")] Order order)
         {
+            if (order.Id > 0)
+                order.Id = 0;
             if (ModelState.IsValid)
             {
                 _context.Add(order);
@@ -89,6 +91,11 @@ namespace MyCompany.Controllers
                 return NotFound();
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id", order.CustomerId);
+
+            var servicetypeList = _context.ServiceTypes.Select(c => c.Name).ToList();
+
+            ViewBag.ServicetypesList = servicetypeList;
+
             return View(order);
         }
 

@@ -4,17 +4,20 @@
     ViewData["Title"] = "Edit";
 }
 
-<h4>Order</h4>
+<h4>Order - Edit</h4>
+<hr />
+<p>
+    <a asp-controller="ServiceTypes" asp-action="Create">Create New ServiceType</a>
+</p>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="CustomerId" class="control-label"></label>
                 <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AddressFrom" class="control-label"></label>
@@ -26,14 +29,18 @@
                 <input asp-for="AddressTo" class="form-control" />
                 <span asp-validation-for="AddressTo" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="ServiceType" class="control-label"></label>
-                <input asp-for="ServiceType" class="form-control" />
+                @Html.DropDownList("Category", new SelectList(ViewBag.ServicetypesList), "Choose Servicerype", new { @class = "form-control" })
+            </div>
+            <div>
+                <input asp-for="ServiceType" class="form-control" id="ServiceType" readonly />
                 <span asp-validation-for="ServiceType" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="TextField" class="control-label"></label>
-                <input asp-for="TextField" class="form-control" />
+                <input asp-for="TextField" class="form-control" id="servicetype" />
                 <span asp-validation-for="TextField" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -42,16 +49,38 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Order List</a> |
+    <a asp-controller="Customers" asp-action="Index">Customer List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(function () {
+            //Dropdownlist Selectedchange event
+            $('#Category').change(function () {
+                // Get Dropdownlist seleted item text
+                var tmpServiceType = $("#ServiceType").val()
+                var tmpChoosing = $("#Category").val()
+                var choosing = tmpServiceType + ',' + tmpChoosing
+                var tmp = tmpServiceType.includes(tmpChoosing);
+                if (tmpServiceType == 0) {
+                    $("#ServiceType").val($("#Category").val())
+                }
+                else {
+                    if ((!tmp) && (tmpServiceType != tmpChoosing)){
+                        $("#ServiceType").val(choosing)
+                    }
+                }
+            })
+        });
+    </script>
 }

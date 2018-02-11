@@ -4,11 +4,11 @@
     ViewData["Title"] = "Create";
 }
 
+<h2>Create - Order</h2>
+
 <p>
     <a asp-controller="ServiceTypes" asp-action="Create">Create New ServiceType</a>
 </p>
-
-<h2>Create - Order</h2>
 
 <hr />
 <div class="row">
@@ -32,12 +32,12 @@
 
             <div class="form-group">
                 @Html.DropDownList("Category", new SelectList(ViewBag.ServicetypesList), "Choose Servicerype", new { @class = "form-control" })
-                
             </div>
             <div>
-                <input asp-for="ServiceType" class="form-control" id="ServiceType" />
+                <input asp-for="ServiceType" class="form-control" id="ServiceType" readonly/>
                 <span asp-validation-for="ServiceType" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="TextField" class="control-label"></label>
                 <input asp-for="TextField" class="form-control" id="servicetype" />
@@ -56,7 +56,8 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Order List</a> |
+    <a asp-controller="Customers" asp-action="Index">Customer List</a>
 </div>
 
 @section Scripts {
@@ -67,7 +68,18 @@
             //Dropdownlist Selectedchange event
             $('#Category').change(function () {
                 // Get Dropdownlist seleted item text
-                $("#ServiceType").val($("#Category").val());
+                var tmpServiceType = $("#ServiceType").val()
+                var tmpChoosing = $("#Category").val()
+                var choosing = tmpServiceType + ',' + tmpChoosing
+                var tmp = tmpServiceType.includes(tmpChoosing);
+                if (tmpServiceType == 0) {
+                    $("#ServiceType").val($("#Category").val())
+                }
+                else {
+                    if ((!tmp) && (tmpServiceType != tmpChoosing)){ 
+                        $("#ServiceType").val(choosing)
+                    }
+                }
             })
         });
     </script>
