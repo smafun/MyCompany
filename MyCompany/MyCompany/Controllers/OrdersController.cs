@@ -91,7 +91,7 @@ namespace MyCompany.Controllers
                 return NotFound();
             }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Id", order.CustomerId);
-
+            ViewData["Date"] = new SelectList(_context.Orders, "Date", "Date", order.Date);
             var servicetypeList = _context.ServiceTypes.Select(c => c.Name).ToList();
 
             ViewBag.ServicetypesList = servicetypeList;
